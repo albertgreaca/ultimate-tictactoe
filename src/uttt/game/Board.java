@@ -64,7 +64,7 @@ public class Board implements BoardInterface {
         boolean validmove = false;
         int i;
         for (i = 0; i < 9; i++)
-            if (isMovePossible(i))
+            if (m[i].getSymbol() == Symbol.EMPTY)
                 validmove = true;
         if (validmove == true)
             return false;
@@ -74,6 +74,8 @@ public class Board implements BoardInterface {
     public boolean isMovePossible(int markIndex) {
         if (markIndex < 0 || markIndex > 8)
             throw new IllegalArgumentException("wrong index");
+        if (isClosed() == true)
+            return false;
         if (m[markIndex].getSymbol() != Symbol.EMPTY)
             return false;
         return true;

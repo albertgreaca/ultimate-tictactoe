@@ -33,12 +33,24 @@ public class BoardTest {
         b.setMarkAt(Symbol.CROSS, x);
         b.setMarkAt(Symbol.CROSS, y);
         b.setMarkAt(Symbol.CROSS, z);
+        assertEquals(b.isMovePossible(8 - x), false);
+        assertEquals(b.setMarkAt(Symbol.CIRCLE, 8 - x), false);
+        assertEquals(b.isMovePossible(8 - y), false);
+        assertEquals(b.setMarkAt(Symbol.CIRCLE, 8 - y), false);
+        assertEquals(b.isMovePossible(8 - z), false);
+        assertEquals(b.setMarkAt(Symbol.CIRCLE, 8 - z), false);
         assertEquals(b.isClosed(), true);
         assertEquals(b.getWinner(), Symbol.CROSS);
         b = makenew();
         b.setMarkAt(Symbol.CIRCLE, x);
         b.setMarkAt(Symbol.CIRCLE, y);
         b.setMarkAt(Symbol.CIRCLE, z);
+        assertEquals(b.isMovePossible(8 - x), false);
+        assertEquals(b.setMarkAt(Symbol.CROSS, 8 - x), false);
+        assertEquals(b.isMovePossible(8 - y), false);
+        assertEquals(b.setMarkAt(Symbol.CROSS, 8 - y), false);
+        assertEquals(b.isMovePossible(8 - z), false);
+        assertEquals(b.setMarkAt(Symbol.CROSS, 8 - z), false);
         assertEquals(b.isClosed(), true);
         assertEquals(b.getWinner(), Symbol.CIRCLE);
     }
@@ -55,7 +67,7 @@ public class BoardTest {
         assertThrows(IllegalArgumentException.class, () -> {
             b.setMarks(test2);
         });
-        // check getMarks
+        // check getMarks and setMarks
         MarkInterface[] aux = new MarkInterface[9];
         int i;
         for (i = 0; i < 9; i++)
@@ -79,12 +91,16 @@ public class BoardTest {
         assertThrows(IllegalArgumentException.class, () -> {
             b.setMarkAt(Symbol.EMPTY, 5);
         });
+        assertEquals(b.isMovePossible(2), true);
         b.setMarkAt(Symbol.CIRCLE, 2);
         assertEquals(b.getMarks()[2].getSymbol(), Symbol.CIRCLE);
+        assertEquals(b.isMovePossible(2), false);
         assertEquals(b.setMarkAt(Symbol.CROSS, 2), false);
 
+        assertEquals(b.isMovePossible(3), true);
         b.setMarkAt(Symbol.CROSS, 3);
         assertEquals(b.getMarks()[3].getSymbol(), Symbol.CROSS);
+        assertEquals(b.isMovePossible(3), false);
         assertEquals(b.setMarkAt(Symbol.CROSS, 3), false);
 
         // check isClosed and getWinner
@@ -118,6 +134,8 @@ public class BoardTest {
         b.setMarkAt(Symbol.CIRCLE, 3);
         b.setMarkAt(Symbol.CIRCLE, 4);
         b.setMarkAt(Symbol.CIRCLE, 7);
+        for (i = 0; i < 9; i++)
+            assertEquals(b.isMovePossible(i), false);
         assertEquals(b.isClosed(), true);
         assertEquals(b.getWinner(), Symbol.EMPTY);
     }

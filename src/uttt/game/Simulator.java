@@ -44,9 +44,9 @@ public class Simulator implements SimulatorInterface {
             throw new IllegalArgumentException("wrong argument");
         if ((boardIndex != nextboard && nextboard != -1))
             return false;
-        boolean ok = b[boardIndex].setMarkAt(symbol, markIndex);
-        if (ok == false)
+        if (isMovePossible(boardIndex, markIndex) == false)
             return false;
+        b[boardIndex].setMarkAt(symbol, markIndex);
         if (b[markIndex].isClosed() == true)
             setIndexNextBoard(-1);
         else
@@ -109,6 +109,8 @@ public class Simulator implements SimulatorInterface {
     }
 
     public boolean isMovePossible(int boardIndex, int markIndex) {
+        if (boardIndex < 0 || boardIndex > 8 || markIndex < 0 || markIndex > 8)
+            throw new IllegalArgumentException("wrong index");
         if (isMovePossible(boardIndex) == false)
             return false;
         return b[boardIndex].isMovePossible(markIndex);
