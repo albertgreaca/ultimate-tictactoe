@@ -12,6 +12,8 @@ public class Mark implements MarkInterface {
     }
 
     public Mark(Symbol s, int p) {
+        if (p < 0 || p > 8)
+            throw new IllegalArgumentException("wrong index");
         this.s = s;
         this.p = p;
     }

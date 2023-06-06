@@ -1,0 +1,125 @@
+package uttt.tests;
+
+import static org.junit.Assert.*;
+
+import javax.swing.border.EmptyBorder;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import uttt.UTTTFactory;
+import uttt.game.BoardInterface;
+import uttt.game.MarkInterface;
+import uttt.utils.Symbol;
+
+public class BoardTest {
+
+    BoardInterface b = UTTTFactory.createBoard();
+
+    public BoardInterface makenew() {
+        BoardInterface b2 = UTTTFactory.createBoard();
+        MarkInterface[] aux = new MarkInterface[9];
+        int i;
+        for (i = 0; i < 9; i++)
+            aux[i] = UTTTFactory.createMark(Symbol.EMPTY, i);
+        b2.setMarks(aux);
+        return b2;
+    }
+
+    public void checkindexes(int x, int y, int z) {
+        b = makenew();
+        assertEquals(b.isClosed(), false);
+        assertEquals(b.getWinner(), Symbol.EMPTY);
+        b.setMarkAt(Symbol.CROSS, x);
+        b.setMarkAt(Symbol.CROSS, y);
+        b.setMarkAt(Symbol.CROSS, z);
+        assertEquals(b.isClosed(), true);
+        assertEquals(b.getWinner(), Symbol.CROSS);
+        b = makenew();
+        b.setMarkAt(Symbol.CIRCLE, x);
+        b.setMarkAt(Symbol.CIRCLE, y);
+        b.setMarkAt(Symbol.CIRCLE, z);
+        assertEquals(b.isClosed(), true);
+        assertEquals(b.getWinner(), Symbol.CIRCLE);
+    }
+
+    @Test
+    public void Test() {
+        // too long array
+        MarkInterface[] test1 = new MarkInterface[10];
+        assertThrows(IllegalArgumentException.class, () -> {
+            b.setMarks(test1);
+        });
+        // too short array
+        MarkInterface[] test2 = new MarkInterface[8];
+        assertThrows(IllegalArgumentException.class, () -> {
+            b.setMarks(test2);
+        });
+        // check getMarks
+        MarkInterface[] aux = new MarkInterface[9];
+        int i;
+        for (i = 0; i < 9; i++)
+            aux[i] = UTTTFactory.createMark(Symbol.EMPTY, i);
+        aux[5].setSymbol(Symbol.CROSS);
+        aux[8].setSymbol(Symbol.CIRCLE);
+        aux[0].setSymbol(Symbol.CIRCLE);
+        b.setMarks(aux);
+        assertArrayEquals(b.getMarks(), aux);
+
+        // check setMarkAt and isMovePossible
+        assertThrows(IllegalArgumentException.class, () -> {
+            b.setMarkAt(Symbol.CIRCLE, -1);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            b.setMarkAt(Symbol.CIRCLE, 9);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            b.setMarkAt(Symbol.EMPTY, 4);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            b.setMarkAt(Symbol.EMPTY, 5);
+        });
+        b.setMarkAt(Symbol.CIRCLE, 2);
+        assertEquals(b.getMarks()[2].getSymbol(), Symbol.CIRCLE);
+        assertEquals(b.setMarkAt(Symbol.CROSS, 2), false);
+
+        b.setMarkAt(Symbol.CROSS, 3);
+        assertEquals(b.getMarks()[3].getSymbol(), Symbol.CROSS);
+        assertEquals(b.setMarkAt(Symbol.CROSS, 3), false);
+
+        // check isClosed and getWinner
+        ////// lines
+        // 0 1 2
+        checkindexes(0, 1, 2);
+        // 3 4 5
+        checkindexes(3, 4, 5);
+        // 6 7 8
+        checkindexes(6, 7, 8);
+        ////// columns
+        // 0 3 6
+        checkindexes(0, 3, 6);
+        // 1 4 7
+        checkindexes(1, 4, 7);
+        // 2 5 8
+        checkindexes(2, 5, 8);
+        ////// diagonals
+        // 0 4 8
+        checkindexes(0, 4, 8);
+        // 2 4 6
+        checkindexes(2, 4, 6);
+        // check tie
+        b = makenew();
+        b.setMarkAt(Symbol.CROSS, 1);
+        b.setMarkAt(Symbol.CROSS, 5);
+        b.setMarkAt(Symbol.CROSS, 6);
+        b.setMarkAt(Symbol.CROSS, 8);
+        b.setMarkAt(Symbol.CIRCLE, 0);
+        b.setMarkAt(Symbol.CIRCLE, 2);
+        b.setMarkAt(Symbol.CIRCLE, 3);
+        b.setMarkAt(Symbol.CIRCLE, 4);
+        b.setMarkAt(Symbol.CIRCLE, 7);
+        assertEquals(b.isClosed(), true);
+        assertEquals(b.getWinner(), Symbol.EMPTY);
+    }
+
+}

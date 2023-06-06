@@ -145,21 +145,32 @@ public class Simulator implements SimulatorInterface {
 
     public void run(PlayerInterface playerOne, PlayerInterface playerTwo, UserInterface ui) {
         int currentguy = 1;
+        if (playerOne.getSymbol() == Symbol.EMPTY)
+            throw new IllegalArgumentException("needs symbol");
+        if (playerTwo.getSymbol() == Symbol.EMPTY)
+            throw new IllegalArgumentException("needs symbol");
+        if (playerOne.getSymbol() == playerTwo.getSymbol())
+            throw new IllegalArgumentException("need different symbols");
+        this.setCurrentPlayerSymbol(playerOne.getSymbol());
         while (true) {
             Move m;
-            PlayerInterface player;
-            if (currentguy == 1)
+            PlayerInterface player, otherplayer;
+            if (currentguy == 1) {
                 player = playerOne;
-            else
+                otherplayer = playerTwo;
+            } else {
                 player = playerTwo;
-            this.setCurrentPlayerSymbol(player.getSymbol());
+                otherplayer = playerOne;
+            }
             m = player.getPlayerMove(this, ui);
-            if (this.isMovePossible(m.getBoardIndex(), m.getMarkIndex()) == true)
-                this.setMarkAt(player.getSymbol(), m.getBoardIndex(), m.getMarkIndex());
+            if (isMovePossible(m.getBoardIndex(), m.getMarkIndex()) == true) {
+                setMarkAt(player.getSymbol(), m.getBoardIndex(), m.getMarkIndex());
+                currentguy = 3 - currentguy;
+                setCurrentPlayerSymbol(otherplayer.getSymbol());
+            }
             ui.updateScreen(this);
-            if (this.isGameOver() == true)
-                ui.showGameOverScreen(this.getWinner());
-            currentguy = 3 - currentguy;
+            if (isGameOver() == true)
+                ui.showGameOverScreen(getWinner());
         }
     }
 }

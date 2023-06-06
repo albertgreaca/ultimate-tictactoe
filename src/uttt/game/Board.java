@@ -24,10 +24,10 @@ public class Board implements BoardInterface {
     }
 
     public boolean setMarkAt(Symbol symbol, int markIndex) {
-        if (isMovePossible(markIndex) == false)
-            return false;
         if (symbol == Symbol.EMPTY)
             throw new IllegalArgumentException("wrong symbol");
+        if (isMovePossible(markIndex) == false)
+            return false;
         m[markIndex].setSymbol(symbol);
         return true;
     }

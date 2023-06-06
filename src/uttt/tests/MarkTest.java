@@ -49,10 +49,10 @@ public class MarkTest {
         assertEquals(m.getSymbol(), Symbol.CROSS);
 
         // cross start
-        m = UTTTFactory.createMark(Symbol.CROSS, 10);
+        m = UTTTFactory.createMark(Symbol.CROSS, 7);
         assertNotNull(m);
         assertEquals(m.getSymbol(), Symbol.CROSS);
-        assertEquals(m.getPosition(), 10);
+        assertEquals(m.getPosition(), 7);
 
         assertThrows(IllegalArgumentException.class, () -> {
             m.setSymbol(Symbol.EMPTY);
@@ -63,6 +63,10 @@ public class MarkTest {
 
         m.setSymbol(Symbol.CROSS);
         assertEquals(m.getSymbol(), Symbol.CROSS);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            m = UTTTFactory.createMark(Symbol.CROSS, 10);
+        });
     }
 
 }
