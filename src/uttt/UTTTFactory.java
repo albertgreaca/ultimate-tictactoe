@@ -1,8 +1,12 @@
 package uttt;
 
 import uttt.game.BoardInterface;
+import uttt.game.Board;
 import uttt.game.MarkInterface;
+import uttt.game.Mark;
 import uttt.game.PlayerInterface;
+import uttt.game.Player;
+import uttt.game.Simulator;
 import uttt.game.SimulatorInterface;
 import uttt.game.UserInterface;
 import uttt.ui.GUI;
@@ -19,7 +23,8 @@ public class UTTTFactory {
 	 * @return A Ultimate TicTacToe mark.
 	 */
 	public static MarkInterface createMark(Symbol symbol, int j) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		Mark m = new Mark(symbol, j);
+		return m;
 	}
 
 	/**
@@ -28,7 +33,8 @@ public class UTTTFactory {
 	 * @return A Ultimate TicTacToe board.
 	 */
 	public static BoardInterface createBoard() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		Board b = new Board();
+		return b;
 	}
 
 	/**
@@ -37,7 +43,8 @@ public class UTTTFactory {
 	 * @return A Ultimate TicTacToe simulator.
 	 */
 	public static SimulatorInterface createSimulator() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		Simulator s = new Simulator();
+		return s;
 	}
 
 	/**
@@ -61,7 +68,8 @@ public class UTTTFactory {
 	 *         communicate with the human player to select moves.
 	 */
 	public static PlayerInterface createHumanPlayer(Symbol symbol) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		Player p = new Player(symbol);
+		return p;
 	}
 
 	/**

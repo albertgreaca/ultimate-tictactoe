@@ -1,4 +1,4 @@
- package uttt.game;
+package uttt.game;
 
 import uttt.UTTTFactory;
 import uttt.utils.Symbol;
