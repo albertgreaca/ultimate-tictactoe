@@ -12,6 +12,8 @@ public class Mark implements MarkInterface {
     }
 
     public Mark(Symbol s, int p) {
+        if (s == null)
+            throw new IllegalArgumentException("null argument");
         if (p < 0 || p > 8)
             throw new IllegalArgumentException("wrong index");
         this.s = s;
@@ -27,6 +29,8 @@ public class Mark implements MarkInterface {
     }
 
     public void setSymbol(Symbol symbol) {
+        if (symbol == null)
+            throw new IllegalArgumentException("null argument");
         s = symbol;
     }
 }

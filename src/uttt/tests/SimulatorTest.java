@@ -17,8 +17,19 @@ public class SimulatorTest {
 
     SimulatorInterface s = UTTTFactory.createSimulator();
 
+    public BoardInterface make1null() {
+        BoardInterface b = UTTTFactory.createBoard();
+        MarkInterface[] aux = new MarkInterface[9];
+        int i;
+        for (i = 0; i < 9; i++)
+            if (i != 5)
+                aux[i] = UTTTFactory.createMark(Symbol.EMPTY, i);
+        b.setMarks(aux);
+        return b;
+    }
+
     public BoardInterface makexwin() {
-        BoardInterface b2 = UTTTFactory.createBoard();
+        BoardInterface b = UTTTFactory.createBoard();
         MarkInterface[] aux = new MarkInterface[9];
         int i;
         for (i = 0; i < 9; i++)
@@ -26,12 +37,12 @@ public class SimulatorTest {
         aux[0].setSymbol(Symbol.CROSS);
         aux[1].setSymbol(Symbol.CROSS);
         aux[2].setSymbol(Symbol.CROSS);
-        b2.setMarks(aux);
-        return b2;
+        b.setMarks(aux);
+        return b;
     }
 
     public BoardInterface makeowin() {
-        BoardInterface b2 = UTTTFactory.createBoard();
+        BoardInterface b = UTTTFactory.createBoard();
         MarkInterface[] aux = new MarkInterface[9];
         int i;
         for (i = 0; i < 9; i++)
@@ -39,8 +50,8 @@ public class SimulatorTest {
         aux[0].setSymbol(Symbol.CIRCLE);
         aux[1].setSymbol(Symbol.CIRCLE);
         aux[2].setSymbol(Symbol.CIRCLE);
-        b2.setMarks(aux);
-        return b2;
+        b.setMarks(aux);
+        return b;
     }
 
     BoardInterface[] makenew() {
@@ -77,21 +88,35 @@ public class SimulatorTest {
 
     @Test
     public void Test() {
+        // null
+        assertThrows(IllegalArgumentException.class, () -> {
+            s.setBoards(null);
+        });
         // too long array
         BoardInterface[] test1 = new BoardInterface[10];
+        int i;
+        for (i = 0; i < 10; i++)
+            test1[i] = makexwin();
         assertThrows(IllegalArgumentException.class, () -> {
             s.setBoards(test1);
         });
 
         // too short array
         BoardInterface[] test2 = new BoardInterface[8];
+        for (i = 0; i < 8; i++)
+            test2[i] = makexwin();
         assertThrows(IllegalArgumentException.class, () -> {
             s.setBoards(test2);
         });
 
+        // null array
+        BoardInterface[] test3 = new BoardInterface[9];
+        assertThrows(IllegalArgumentException.class, () -> {
+            s.setBoards(test3);
+        });
+
         // check getBoards and setBoards
         BoardInterface[] aux = new BoardInterface[9];
-        int i;
         for (i = 0; i < 9; i++)
             aux[i] = UTTTFactory.createBoard();
         aux[5] = makexwin();
@@ -101,6 +126,10 @@ public class SimulatorTest {
         assertArrayEquals(s.getBoards(), aux);
 
         // check getCurrentPlayerSymbol and setCurrentPlayerSymbol
+        s.setBoards(makenew()); // reset board
+        assertThrows(IllegalArgumentException.class, () -> {
+            s.setCurrentPlayerSymbol(null);
+        });
         s.setCurrentPlayerSymbol(Symbol.CROSS);
         assertEquals(s.getCurrentPlayerSymbol(), Symbol.CROSS);
         s.setCurrentPlayerSymbol(Symbol.CIRCLE);
@@ -110,8 +139,13 @@ public class SimulatorTest {
 
         // check setMarkAt, setIndexNextBoard, getIndexNextBoard, isMovePossible and
         // isMovePossible
+        assertThrows(IllegalArgumentException.class, () -> {
+            s.setMarkAt(null, 1, 0);
+        });
         s.setCurrentPlayerSymbol(Symbol.CIRCLE);
-        assertEquals(s.setMarkAt(Symbol.CROSS, 1, 0), false);
+        assertThrows(IllegalArgumentException.class, () -> {
+            s.setMarkAt(Symbol.CROSS, 1, 0);
+        });
         s.setCurrentPlayerSymbol(Symbol.EMPTY);
         assertEquals(s.setMarkAt(Symbol.EMPTY, 1, 0), true);
         s.setCurrentPlayerSymbol(Symbol.CIRCLE);
@@ -162,6 +196,11 @@ public class SimulatorTest {
                     assertEquals(s.isMovePossible(k), false);
                     assertEquals(s.isMovePossible(k, 0), false);
                     assertEquals(s.setMarkAt(Symbol.CIRCLE, k, 0), false);
+                } else {
+                    int k = j;
+                    assertEquals(s.isMovePossible(k), true);
+                    assertEquals(s.isMovePossible(k, 0), true);
+                    assertEquals(s.setMarkAt(Symbol.CIRCLE, k, 0), true);
                 }
         }
         // if nextboard is -1 check that it can write everywhere

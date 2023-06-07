@@ -15,6 +15,9 @@ public class MarkTest {
 
     @Test
     public void Test() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            m = UTTTFactory.createMark(null, 3);
+        });
         // empty start
         m = UTTTFactory.createMark(Symbol.EMPTY, 3);
         assertNotNull(m);
@@ -31,6 +34,10 @@ public class MarkTest {
         m.setSymbol(Symbol.EMPTY);
         assertEquals(m.getSymbol(), Symbol.EMPTY);
 
+        assertThrows(IllegalArgumentException.class, () -> {
+            m.setSymbol(null);
+        });
+
         // circle start
         m = UTTTFactory.createMark(Symbol.CIRCLE, 5);
         assertNotNull(m);
@@ -46,6 +53,10 @@ public class MarkTest {
         m.setSymbol(Symbol.CIRCLE);
         assertEquals(m.getSymbol(), Symbol.CIRCLE);
 
+        assertThrows(IllegalArgumentException.class, () -> {
+            m.setSymbol(null);
+        });
+
         // cross start
         m = UTTTFactory.createMark(Symbol.CROSS, 7);
         assertNotNull(m);
@@ -60,6 +71,10 @@ public class MarkTest {
 
         m.setSymbol(Symbol.CROSS);
         assertEquals(m.getSymbol(), Symbol.CROSS);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            m.setSymbol(null);
+        });
 
         assertThrows(IllegalArgumentException.class, () -> {
             m = UTTTFactory.createMark(Symbol.CROSS, -1);

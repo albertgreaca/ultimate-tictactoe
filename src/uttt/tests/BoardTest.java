@@ -67,6 +67,11 @@ public class BoardTest {
         assertThrows(IllegalArgumentException.class, () -> {
             b.setMarks(test2);
         });
+        // null array
+        MarkInterface[] test3 = new MarkInterface[9];
+        assertThrows(IllegalArgumentException.class, () -> {
+            b.setMarks(test3);
+        });
         // check getMarks and setMarks
         MarkInterface[] aux = new MarkInterface[9];
         int i;
@@ -79,6 +84,9 @@ public class BoardTest {
         assertArrayEquals(b.getMarks(), aux);
 
         // check setMarkAt and isMovePossible
+        assertThrows(IllegalArgumentException.class, () -> {
+            b.setMarkAt(null, 2);
+        });
         assertThrows(IllegalArgumentException.class, () -> {
             b.setMarkAt(Symbol.CIRCLE, -1);
         });

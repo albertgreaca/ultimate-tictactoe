@@ -23,8 +23,14 @@ public class Simulator implements SimulatorInterface {
     }
 
     public void setBoards(BoardInterface[] boards) {
+        if (boards == null)
+            throw new IllegalArgumentException("null argument");
         if (boards.length != 9)
             throw new IllegalArgumentException("wrong length");
+        int i, j;
+        for (i = 0; i < 9; i++)
+            if (boards[i] == null)
+                throw new IllegalArgumentException("null argument");
         b = boards;
     }
 
@@ -33,14 +39,18 @@ public class Simulator implements SimulatorInterface {
     }
 
     public void setCurrentPlayerSymbol(Symbol symbol) {
+        if (symbol == null)
+            throw new IllegalArgumentException("null argument");
         cps = symbol;
     }
 
     public boolean setMarkAt(Symbol symbol, int boardIndex, int markIndex) {
-        if (boardIndex < 0 || boardIndex > 8 || markIndex < 0
+        if (symbol == null)
+            throw new IllegalArgumentException("null argument");
+        if (symbol != cps || boardIndex < 0 || boardIndex > 8 || markIndex < 0
                 || markIndex > 8)
             throw new IllegalArgumentException("wrong argument");
-        if (symbol != cps || (boardIndex != nextboard && nextboard != -1))
+        if (boardIndex != nextboard && nextboard != -1)
             return false;
         if (isMovePossible(boardIndex, markIndex) == false)
             return false;
@@ -144,6 +154,8 @@ public class Simulator implements SimulatorInterface {
     }
 
     public void run(PlayerInterface playerOne, PlayerInterface playerTwo, UserInterface ui) {
+        if (playerOne == null || playerTwo == null || ui == null)
+            throw new IllegalArgumentException("null argument");
         int currentguy = 1;
         if (playerOne.getSymbol() == Symbol.EMPTY)
             throw new IllegalArgumentException("needs symbol");

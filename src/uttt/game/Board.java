@@ -20,10 +20,16 @@ public class Board implements BoardInterface {
     public void setMarks(MarkInterface[] marks) {
         if (marks.length != 9)
             throw new IllegalArgumentException("wrong length");
+        int i;
+        for (i = 0; i < 9; i++)
+            if (marks[i] == null)
+                throw new IllegalArgumentException("null argument");
         m = marks;
     }
 
     public boolean setMarkAt(Symbol symbol, int markIndex) {
+        if (symbol == null)
+            throw new IllegalArgumentException("null argument");
         if (markIndex < 0 || markIndex > 8)
             throw new IllegalArgumentException("wrong index");
         if (isMovePossible(markIndex) == false)
