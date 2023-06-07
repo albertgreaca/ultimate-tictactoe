@@ -59,11 +59,16 @@ public class BoardTest {
     public void Test() {
         // too long array
         MarkInterface[] test1 = new MarkInterface[10];
+        int i;
+        for (i = 0; i < 9; i++)
+            test1[i] = UTTTFactory.createMark(Symbol.CIRCLE, i);
         assertThrows(IllegalArgumentException.class, () -> {
             b.setMarks(test1);
         });
         // too short array
         MarkInterface[] test2 = new MarkInterface[8];
+        for (i = 0; i < 8; i++)
+            test2[i] = UTTTFactory.createMark(Symbol.CROSS, i);
         assertThrows(IllegalArgumentException.class, () -> {
             b.setMarks(test2);
         });
@@ -74,7 +79,6 @@ public class BoardTest {
         });
         // check getMarks and setMarks
         MarkInterface[] aux = new MarkInterface[9];
-        int i;
         for (i = 0; i < 9; i++)
             aux[i] = UTTTFactory.createMark(Symbol.EMPTY, i);
         aux[5].setSymbol(Symbol.CROSS);
