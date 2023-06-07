@@ -20,10 +20,15 @@ public class Player implements PlayerInterface {
     }
 
     public Move getPlayerMove(SimulatorInterface game, UserInterface ui) {
-        return ui.getUserMove();
+        if (ui != null)
+            return ui.getUserMove();
+        int[] aux = Minimax.minimizer(game.getBoards(), 0, getSymbol(), game.getIndexNextBoard(), -10, 20);
+        return new Move(aux[1], aux[2]);
     }
 
     public int getPlayerMove(BoardInterface game, UserInterface ui) {
+        if (game == null)
+            throw new IllegalArgumentException("null argument");
         MarkInterface[] aux = game.getMarks();
         int i, nr = 0, p3 = 1;
         for (i = 0; i < 9; i++) {

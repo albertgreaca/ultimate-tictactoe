@@ -154,7 +154,7 @@ public class Simulator implements SimulatorInterface {
     }
 
     public void run(PlayerInterface playerOne, PlayerInterface playerTwo, UserInterface ui) {
-        if (playerOne == null || playerTwo == null || ui == null)
+        if (playerOne == null || playerTwo == null)
             throw new IllegalArgumentException("null argument");
         int currentguy = 1;
         if (playerOne.getSymbol() == Symbol.EMPTY)
