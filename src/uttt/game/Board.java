@@ -1,6 +1,7 @@
 package uttt.game;
 
 import uttt.utils.Symbol;
+import uttt.utils.Move;
 import uttt.UTTTFactory;
 
 public class Board implements BoardInterface {
@@ -118,5 +119,35 @@ public class Board implements BoardInterface {
                 && m[4].getSymbol() == m[6].getSymbol())
             return m[2].getSymbol();
         return Symbol.EMPTY;
+    }
+
+    public void run(PlayerInterface playerOne, PlayerInterface playerTwo, UserInterface ui) {
+        if (playerOne == null || playerTwo == null || ui == null)
+            throw new IllegalArgumentException("null argument");
+        int currentguy = 1;
+        if (playerOne.getSymbol() == Symbol.EMPTY)
+            throw new IllegalArgumentException("needs symbol");
+        if (playerTwo.getSymbol() == Symbol.EMPTY)
+            throw new IllegalArgumentException("needs symbol");
+        if (playerOne.getSymbol() == playerTwo.getSymbol())
+            throw new IllegalArgumentException("need different symbols");
+        while (true) {
+            if (currentguy == 1) {
+                Move m = ui.getUserMove();
+                if (isMovePossible(m.getMarkIndex()) == true) {
+                    setMarkAt(playerOne.getSymbol(), m.getMarkIndex());
+                    currentguy = 3 - currentguy;
+                }
+            } else {
+                int m = playerTwo.getPlayerMove(this, ui);
+                if (isMovePossible(m) == true) {
+                    setMarkAt(playerTwo.getSymbol(), m);
+                    currentguy = 3 - currentguy;
+                }
+            }
+            ui.updateScreen(this);
+            if (isClosed() == true)
+                ui.showGameOverScreen(getWinner());
+        }
     }
 }

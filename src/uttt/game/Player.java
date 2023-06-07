@@ -2,6 +2,7 @@ package uttt.game;
 
 import uttt.utils.Move;
 import uttt.utils.Symbol;
+import uttt.game.Precalculated;
 
 public class Player implements PlayerInterface {
     Symbol s;
@@ -22,4 +23,19 @@ public class Player implements PlayerInterface {
         return ui.getUserMove();
     }
 
+    public int getPlayerMove(BoardInterface game, UserInterface ui) {
+        MarkInterface[] aux = game.getMarks();
+        int i, nr = 0, p3 = 1;
+        for (i = 0; i < 9; i++) {
+            if (aux[i].getSymbol() == Symbol.CROSS)
+                nr = nr + p3;
+            if (aux[i].getSymbol() == Symbol.CIRCLE)
+                nr = nr + 2 * p3;
+            p3 = 3 * p3;
+        }
+        if (getSymbol() == Symbol.CROSS)
+            return Precalculated.nextmovex[nr];
+        else
+            return Precalculated.nextmoveo[nr];
+    }
 }

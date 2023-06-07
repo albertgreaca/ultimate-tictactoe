@@ -83,6 +83,7 @@ public class UTTTFactory {
 	 * @return A Ultimate TicTacToe player that will play automatically.
 	 */
 	public static PlayerInterface createBonusPlayer(Symbol symbol) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		Player p = new Player(symbol);
+		return p;
 	}
 }
