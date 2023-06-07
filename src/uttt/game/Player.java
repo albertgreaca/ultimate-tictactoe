@@ -29,6 +29,8 @@ public class Player implements PlayerInterface {
     public int getPlayerMove(BoardInterface game, UserInterface ui) {
         if (game == null)
             throw new IllegalArgumentException("null argument");
+        if (Precalculated.ok == 0)
+            Precalculated.setandrun();
         MarkInterface[] aux = game.getMarks();
         int i, nr = 0, p3 = 1;
         for (i = 0; i < 9; i++) {
@@ -39,8 +41,8 @@ public class Player implements PlayerInterface {
             p3 = 3 * p3;
         }
         if (getSymbol() == Symbol.CROSS)
-            return Precalculated.nextmovex[nr];
+            return Precalculated.nexminx[nr];
         else
-            return Precalculated.nextmoveo[nr];
+            return Precalculated.nexmino[nr];
     }
 }

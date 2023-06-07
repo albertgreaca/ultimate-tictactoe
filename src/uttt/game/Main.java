@@ -23,7 +23,7 @@ public class Main {
 	 * If set to true a you will play UTTT. If set to false you will play simple
 	 * TicTacToe instead.
 	 */
-	private static final boolean DEFAULT_PLAY_UTT = true;
+	private static final boolean DEFAULT_PLAY_UTT = false;
 
 	/**
 	 * If set to true the user will be asked what player should be chosen.
