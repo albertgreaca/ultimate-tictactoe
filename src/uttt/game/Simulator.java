@@ -33,16 +33,14 @@ public class Simulator implements SimulatorInterface {
     }
 
     public void setCurrentPlayerSymbol(Symbol symbol) {
-        if (symbol == Symbol.EMPTY)
-            throw new IllegalArgumentException("wrong symbol");
         cps = symbol;
     }
 
     public boolean setMarkAt(Symbol symbol, int boardIndex, int markIndex) {
-        if (symbol != cps || symbol == Symbol.EMPTY || boardIndex < 0 || boardIndex > 8 || markIndex < 0
+        if (boardIndex < 0 || boardIndex > 8 || markIndex < 0
                 || markIndex > 8)
             throw new IllegalArgumentException("wrong argument");
-        if ((boardIndex != nextboard && nextboard != -1))
+        if (symbol != cps || (boardIndex != nextboard && nextboard != -1))
             return false;
         if (isMovePossible(boardIndex, markIndex) == false)
             return false;

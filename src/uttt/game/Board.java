@@ -24,8 +24,8 @@ public class Board implements BoardInterface {
     }
 
     public boolean setMarkAt(Symbol symbol, int markIndex) {
-        if (symbol == Symbol.EMPTY)
-            throw new IllegalArgumentException("wrong symbol");
+        if (markIndex < 0 || markIndex > 8)
+            throw new IllegalArgumentException("wrong index");
         if (isMovePossible(markIndex) == false)
             return false;
         m[markIndex].setSymbol(symbol);

@@ -27,8 +27,6 @@ public class Mark implements MarkInterface {
     }
 
     public void setSymbol(Symbol symbol) {
-        if (symbol == Symbol.EMPTY)
-            throw new IllegalArgumentException("wrong symbol");
         s = symbol;
     }
 }

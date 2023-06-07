@@ -22,15 +22,14 @@ public class MarkTest {
         assertEquals(m.getSymbol(), Symbol.EMPTY);
         assertEquals(m.getPosition(), 3);
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            m.setSymbol(Symbol.EMPTY);
-        });
-
         m.setSymbol(Symbol.CIRCLE);
         assertEquals(m.getSymbol(), Symbol.CIRCLE);
 
         m.setSymbol(Symbol.CROSS);
         assertEquals(m.getSymbol(), Symbol.CROSS);
+
+        m.setSymbol(Symbol.EMPTY);
+        assertEquals(m.getSymbol(), Symbol.EMPTY);
 
         // circle start
         m = UTTTFactory.createMark(Symbol.CIRCLE, 5);
@@ -38,15 +37,14 @@ public class MarkTest {
         assertEquals(m.getSymbol(), Symbol.CIRCLE);
         assertEquals(m.getPosition(), 5);
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            m.setSymbol(Symbol.EMPTY);
-        });
+        m.setSymbol(Symbol.CROSS);
+        assertEquals(m.getSymbol(), Symbol.CROSS);
+
+        m.setSymbol(Symbol.EMPTY);
+        assertEquals(m.getSymbol(), Symbol.EMPTY);
 
         m.setSymbol(Symbol.CIRCLE);
         assertEquals(m.getSymbol(), Symbol.CIRCLE);
-
-        m.setSymbol(Symbol.CROSS);
-        assertEquals(m.getSymbol(), Symbol.CROSS);
 
         // cross start
         m = UTTTFactory.createMark(Symbol.CROSS, 7);
@@ -54,9 +52,8 @@ public class MarkTest {
         assertEquals(m.getSymbol(), Symbol.CROSS);
         assertEquals(m.getPosition(), 7);
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            m.setSymbol(Symbol.EMPTY);
-        });
+        m.setSymbol(Symbol.EMPTY);
+        assertEquals(m.getSymbol(), Symbol.EMPTY);
 
         m.setSymbol(Symbol.CIRCLE);
         assertEquals(m.getSymbol(), Symbol.CIRCLE);
@@ -65,7 +62,11 @@ public class MarkTest {
         assertEquals(m.getSymbol(), Symbol.CROSS);
 
         assertThrows(IllegalArgumentException.class, () -> {
-            m = UTTTFactory.createMark(Symbol.CROSS, 10);
+            m = UTTTFactory.createMark(Symbol.CROSS, -1);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            m = UTTTFactory.createMark(Symbol.CROSS, 9);
         });
     }
 

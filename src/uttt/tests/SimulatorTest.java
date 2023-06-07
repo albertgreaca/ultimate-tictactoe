@@ -101,22 +101,20 @@ public class SimulatorTest {
         assertArrayEquals(s.getBoards(), aux);
 
         // check getCurrentPlayerSymbol and setCurrentPlayerSymbol
-        assertThrows(IllegalArgumentException.class, () -> {
-            s.setCurrentPlayerSymbol(Symbol.EMPTY);
-        });
         s.setCurrentPlayerSymbol(Symbol.CROSS);
         assertEquals(s.getCurrentPlayerSymbol(), Symbol.CROSS);
         s.setCurrentPlayerSymbol(Symbol.CIRCLE);
         assertEquals(s.getCurrentPlayerSymbol(), Symbol.CIRCLE);
+        s.setCurrentPlayerSymbol(Symbol.EMPTY);
+        assertEquals(s.getCurrentPlayerSymbol(), Symbol.EMPTY);
 
         // check setMarkAt, setIndexNextBoard, getIndexNextBoard, isMovePossible and
         // isMovePossible
-        assertThrows(IllegalArgumentException.class, () -> {
-            s.setMarkAt(Symbol.CROSS, 1, 0);
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            s.setMarkAt(Symbol.EMPTY, 1, 0);
-        });
+        s.setCurrentPlayerSymbol(Symbol.CIRCLE);
+        assertEquals(s.setMarkAt(Symbol.CROSS, 1, 0), false);
+        s.setCurrentPlayerSymbol(Symbol.EMPTY);
+        assertEquals(s.setMarkAt(Symbol.EMPTY, 1, 0), true);
+        s.setCurrentPlayerSymbol(Symbol.CIRCLE);
         assertThrows(IllegalArgumentException.class, () -> {
             s.setMarkAt(Symbol.CIRCLE, -1, 0);
         });
