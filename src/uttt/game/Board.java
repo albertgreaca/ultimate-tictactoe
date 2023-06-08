@@ -19,6 +19,8 @@ public class Board implements BoardInterface {
     }
 
     public void setMarks(MarkInterface[] marks) {
+        if (marks == null)
+            throw new IllegalArgumentException("null argument");
         if (marks.length != 9)
             throw new IllegalArgumentException("wrong length");
         int i;

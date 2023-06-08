@@ -3,6 +3,7 @@ package uttt.game;
 import uttt.utils.Move;
 import uttt.utils.Symbol;
 import uttt.game.Precalculated;
+import uttt.game.MonteCarlo;
 
 public class Player implements PlayerInterface {
     Symbol s;
@@ -22,7 +23,12 @@ public class Player implements PlayerInterface {
     public Move getPlayerMove(SimulatorInterface game, UserInterface ui) {
         if (ui != null)
             return ui.getUserMove();
+        long curtime = System.currentTimeMillis();
         int[] aux = Minimax.minimizer(game.getBoards(), 0, getSymbol(), game.getIndexNextBoard(), -10, 20);
+        if (aux[0] == 4) {
+            return MonteCarlo.iterate(new MonteCarlo(getSymbol()), curtime, game.getBoards(), game.getIndexNextBoard(),
+                    getSymbol());
+        }
         return new Move(aux[1], aux[2]);
     }
 

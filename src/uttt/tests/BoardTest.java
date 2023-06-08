@@ -57,6 +57,10 @@ public class BoardTest {
 
     @Test
     public void Test() {
+        // null
+        assertThrows(IllegalArgumentException.class, () -> {
+            b.setMarks(null);
+        });
         // too long array
         MarkInterface[] test1 = new MarkInterface[10];
         int i;
