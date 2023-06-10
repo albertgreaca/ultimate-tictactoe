@@ -7,7 +7,6 @@ import uttt.utils.Symbol;
 
 public class MonteCarlo {
     double w, s;
-    int expanded;
     Symbol symbol;
     MonteCarlo[][] nex;
 
@@ -15,20 +14,13 @@ public class MonteCarlo {
 
     MonteCarlo(Symbol player) {
         w = s = 1.0;
-        expanded = 0;
         symbol = player;
         nex = new MonteCarlo[9][9];
     }
 
-    public static Symbol playout(MonteCarlo node, BoardInterface[] b, int nextboard, Symbol wins) {
-        if (Minimax.isGameOver(b)) {
-            node.s += 1.0;
-            if (node.symbol == Minimax.getWinner(b))
-                node.w += 1.0;
-            else if (Minimax.getWinner(b) == Symbol.EMPTY && node.symbol == wins.flip())
-                node.w += 1.0;
+    public static Symbol playout(BoardInterface[] b, int nextboard, Symbol curs) {
+        if (Minimax.isGameOver(b))
             return Minimax.getWinner(b);
-        }
         int i, j;
         int[] posb = new int[81];
         int[] posm = new int[81];
@@ -44,43 +36,37 @@ public class MonteCarlo {
         int selectedmove = rnd.nextInt(cnt);
         i = posb[selectedmove];
         j = posm[selectedmove];
-        b[i].getMarks()[j].setSymbol(node.symbol);
+        b[i].getMarks()[j].setSymbol(curs);
         int nexb = j;
         if (b[j].isClosed())
             nexb = -1;
-        node.nex[i][j] = new MonteCarlo(node.symbol.flip());
-        Symbol ans = playout(node.nex[i][j], b, nexb, wins);
+        Symbol ans = playout(b, nexb, curs.flip());
         b[i].getMarks()[j].setSymbol(Symbol.EMPTY);
-        node.s += 1.0;
-        if (node.symbol == ans)
-            node.w += 1.0;
-        else if (ans == Symbol.EMPTY && node.symbol == wins.flip())
-            node.w += 1.0;
         return ans;
     }
 
     // returns symbol of the player that won the playout
     public static Symbol findChildAndPlay(MonteCarlo node, BoardInterface[] b, int nextboard, Symbol wins) {
-        // already expanded and has children
-        if (node.expanded == 1) {
-            double maxi = -2e9;
-            int i, j, oki = -1, okj = -1;
-            for (i = 0; i < 9; i++)
-                for (j = 0; j < 9; j++)
-                    if (node.nex[i][j] != null) {
-                        double reward;
-                        if (node.symbol == wins)
-                            reward = 1 - node.nex[i][j].w / node.nex[i][j].s;
-                        else
-                            reward = node.nex[i][j].w / node.nex[i][j].s;
-                        if (reward + Math.sqrt((double) 2)
-                                * Math.sqrt(Math.log(node.s) / node.nex[i][j].s) > maxi) {
-                            maxi = reward
-                                    + Math.sqrt((double) 2) * Math.sqrt(Math.log(node.s) / node.nex[i][j].s);
-                            oki = i;
-                            okj = j;
-                        }
+        // find best child
+        double maxi = -2e9;
+        int i, j, oki = -1, okj = -1;
+        for (i = 0; i < 9; i++)
+            for (j = 0; j < 9; j++)
+                if (node.nex[i][j] != null) {
+                    double reward;
+                    if (node.symbol == wins)
+                        reward = 1.0 - node.nex[i][j].w / node.nex[i][j].s;
+                    else
+                        reward = node.nex[i][j].w / node.nex[i][j].s;
+                    if (reward + Math.sqrt((double) 2)
+                            * Math.sqrt(Math.log(node.s) / node.nex[i][j].s) > maxi) {
+                        maxi = reward
+                                + Math.sqrt((double) 2) * Math.sqrt(Math.log(node.s) / node.nex[i][j].s);
+                        oki = i;
+                        okj = j;
                     }
+                }
+        if (oki != -1) { // if it has a child
             i = oki;
             j = okj;
             b[i].getMarks()[j].setSymbol(node.symbol);
@@ -92,24 +78,11 @@ public class MonteCarlo {
             node.s += 1.0;
             if (node.symbol == ans)
                 node.w += 1.0;
-            else if (ans == Symbol.EMPTY && node.symbol == wins.flip())
+            if (node.symbol == wins.flip() && ans == Symbol.EMPTY)
                 node.w += 1.0;
             return ans;
         }
-        // determining all possible children and running playout on one of them
-
-        // nothing to expand
-        if (Minimax.isGameOver(b)) {
-            node.s += 1.0;
-            if (node.symbol == Minimax.getWinner(b))
-                node.w += 1.0;
-            else if (Minimax.getWinner(b) == Symbol.EMPTY && node.symbol == wins.flip())
-                node.w += 1.0;
-            return Minimax.getWinner(b);
-        }
-
-        // has available children
-        int i, j;
+        // otherwise find all legal moves and play on one of them
         int[] posb = new int[81];
         int[] posm = new int[81];
         int cnt = 0;
@@ -122,6 +95,14 @@ public class MonteCarlo {
                         posm[cnt] = j;
                         cnt++;
                     }
+        if (cnt == 0) { // no legal moves
+            node.s += 1.0;
+            if (node.symbol == Minimax.getWinner(b))
+                node.w += 1.0;
+            if (node.symbol == wins.flip() && Minimax.getWinner(b) == Symbol.EMPTY)
+                node.w += 1.0;
+            return Minimax.getWinner(b);
+        }
         int selectedmove = rnd.nextInt(cnt);
         i = posb[selectedmove];
         j = posm[selectedmove];
@@ -130,20 +111,20 @@ public class MonteCarlo {
         if (b[j].isClosed())
             nexb = -1;
         // run playout on selected node
-        Symbol ans = playout(node.nex[i][j], b, nexb, wins);
+        Symbol ans = playout(b, nexb, node.symbol.flip());
         b[i].getMarks()[j].setSymbol(Symbol.EMPTY);
-        node.expanded = 1;
         node.s += 1.0;
         if (node.symbol == ans)
             node.w += 1.0;
-        else if (ans == Symbol.EMPTY && node.symbol == wins.flip())
+        if (node.symbol == wins.flip() && ans == Symbol.EMPTY)
             node.w += 1.0;
         return ans;
+
     }
 
     public static Move iterate(MonteCarlo node, long curtime, BoardInterface[] b, int nextboard, Symbol wins) {
         while (true) {
-            if (System.currentTimeMillis() - curtime > (long) 2000)
+            if (System.currentTimeMillis() - curtime > (long) 2600)
                 break;
             findChildAndPlay(node, b, nextboard, wins);
         }

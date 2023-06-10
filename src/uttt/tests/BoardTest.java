@@ -2,9 +2,6 @@ package uttt.tests;
 
 import static org.junit.Assert.*;
 
-import javax.swing.border.EmptyBorder;
-
-import org.junit.Before;
 import org.junit.Test;
 
 import uttt.UTTTFactory;
@@ -57,6 +54,7 @@ public class BoardTest {
 
     @Test
     public void Test() {
+        assertNotNull(b);
         // null
         assertThrows(IllegalArgumentException.class, () -> {
             b.setMarks(null);

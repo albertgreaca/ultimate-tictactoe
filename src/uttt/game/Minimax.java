@@ -1,8 +1,5 @@
 package uttt.game;
 
-import uttt.game.MarkInterface;
-import uttt.UTTTFactory;
-import uttt.game.BoardInterface;
 import uttt.utils.Symbol;
 
 public class Minimax {

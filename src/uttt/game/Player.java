@@ -2,8 +2,6 @@ package uttt.game;
 
 import uttt.utils.Move;
 import uttt.utils.Symbol;
-import uttt.game.Precalculated;
-import uttt.game.MonteCarlo;
 
 public class Player implements PlayerInterface {
     Symbol s;

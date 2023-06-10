@@ -27,7 +27,7 @@ public class Simulator implements SimulatorInterface {
             throw new IllegalArgumentException("null argument");
         if (boards.length != 9)
             throw new IllegalArgumentException("wrong length");
-        int i, j;
+        int i;
         for (i = 0; i < 9; i++)
             if (boards[i] == null)
                 throw new IllegalArgumentException("null argument");
@@ -181,8 +181,10 @@ public class Simulator implements SimulatorInterface {
                 setCurrentPlayerSymbol(otherplayer.getSymbol());
             }
             ui.updateScreen(this);
-            if (isGameOver() == true)
+            if (isGameOver() == true) {
                 ui.showGameOverScreen(getWinner());
+                return;
+            }
         }
     }
 }

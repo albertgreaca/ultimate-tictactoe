@@ -148,8 +148,10 @@ public class Board implements BoardInterface {
                 }
             }
             ui.updateScreen(this);
-            if (isClosed() == true)
+            if (isClosed() == true) {
                 ui.showGameOverScreen(getWinner());
+                return;
+            }
         }
     }
 }
