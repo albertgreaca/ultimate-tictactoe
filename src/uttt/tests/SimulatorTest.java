@@ -68,6 +68,16 @@ public class SimulatorTest {
         aux[y] = makexwin();
         aux[z] = makexwin();
         s.setBoards(aux);
+        assertEquals(s.isMovePossible(8 - x), false);
+        assertEquals(s.isMovePossible(8 - y), false);
+        assertEquals(s.isMovePossible(8 - z), false);
+        assertEquals(s.isMovePossible(8 - x, 0), false);
+        assertEquals(s.isMovePossible(8 - y, 0), false);
+        assertEquals(s.isMovePossible(8 - z, 0), false);
+        s.setCurrentPlayerSymbol(Symbol.CROSS);
+        assertEquals(s.setMarkAt(Symbol.CROSS, 8 - x, 0), false);
+        assertEquals(s.setMarkAt(Symbol.CROSS, 8 - y, 0), false);
+        assertEquals(s.setMarkAt(Symbol.CROSS, 8 - z, 0), false);
         assertEquals(s.isGameOver(), true);
         assertEquals(s.getWinner(), Symbol.CROSS);
 
@@ -79,6 +89,16 @@ public class SimulatorTest {
         aux[y] = makeowin();
         aux[z] = makeowin();
         s.setBoards(aux);
+        assertEquals(s.isMovePossible(8 - x), false);
+        assertEquals(s.isMovePossible(8 - y), false);
+        assertEquals(s.isMovePossible(8 - z), false);
+        assertEquals(s.isMovePossible(8 - x, 0), false);
+        assertEquals(s.isMovePossible(8 - y, 0), false);
+        assertEquals(s.isMovePossible(8 - z, 0), false);
+        s.setCurrentPlayerSymbol(Symbol.CIRCLE);
+        assertEquals(s.setMarkAt(Symbol.CIRCLE, 8 - x, 0), false);
+        assertEquals(s.setMarkAt(Symbol.CIRCLE, 8 - y, 0), false);
+        assertEquals(s.setMarkAt(Symbol.CIRCLE, 8 - z, 0), false);
         assertEquals(s.isGameOver(), true);
         assertEquals(s.getWinner(), Symbol.CIRCLE);
     }
@@ -190,15 +210,13 @@ public class SimulatorTest {
             int j;
             for (j = 0; j < 9; j++)
                 if (i != j) {
-                    int k = j;
-                    assertEquals(s.isMovePossible(k), false);
-                    assertEquals(s.isMovePossible(k, 0), false);
-                    assertEquals(s.setMarkAt(Symbol.CIRCLE, k, 0), false);
+                    assertEquals(s.isMovePossible(j), false);
+                    assertEquals(s.isMovePossible(j, 0), false);
+                    assertEquals(s.setMarkAt(Symbol.CIRCLE, j, 0), false);
                 } else {
-                    int k = j;
-                    assertEquals(s.isMovePossible(k), true);
-                    assertEquals(s.isMovePossible(k, 0), true);
-                    assertEquals(s.setMarkAt(Symbol.CIRCLE, k, 0), true);
+                    assertEquals(s.isMovePossible(j), true);
+                    assertEquals(s.isMovePossible(j, 0), true);
+                    assertEquals(s.setMarkAt(Symbol.CIRCLE, j, 0), true);
                 }
         }
         // if nextboard is -1 check that it can write everywhere
@@ -206,10 +224,9 @@ public class SimulatorTest {
         for (i = 0; i < 9; i++) {
             s.setIndexNextBoard(-1);
             assertEquals(s.getIndexNextBoard(), -1);
-            int k = i;
-            assertEquals(s.isMovePossible(k), true);
-            assertEquals(s.isMovePossible(k, 0), true);
-            assertEquals(s.setMarkAt(Symbol.CIRCLE, k, 0), true);
+            assertEquals(s.isMovePossible(i), true);
+            assertEquals(s.isMovePossible(i, 0), true);
+            assertEquals(s.setMarkAt(Symbol.CIRCLE, i, 0), true);
         }
         // check if cell is already written
         s.setBoards(makenew());
@@ -230,6 +247,9 @@ public class SimulatorTest {
         assertEquals(s.isMovePossible(5), false);
         assertEquals(s.isMovePossible(5, 4), false);
         assertEquals(s.setMarkAt(Symbol.CIRCLE, 5, 4), false);
+        s.setIndexNextBoard(3);
+        assertEquals(s.setMarkAt(Symbol.CIRCLE, 3, 5), true);
+        assertEquals(s.getIndexNextBoard(), -1);
 
         // check if board is tied
         BoardInterface b = UTTTFactory.createBoard();

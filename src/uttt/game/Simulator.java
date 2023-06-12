@@ -109,6 +109,8 @@ public class Simulator implements SimulatorInterface {
     public boolean isMovePossible(int boardIndex) {
         if (boardIndex < 0 || boardIndex > 8)
             throw new IllegalArgumentException("wrong board");
+        if (isGameOver() == true)
+            return false;
         if (nextboard != -1 && nextboard != boardIndex)
             return false;
         if (b[boardIndex].isClosed() == true)

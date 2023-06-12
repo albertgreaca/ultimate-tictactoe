@@ -76,11 +76,51 @@ public class MarkTest {
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
+            m = UTTTFactory.createMark(Symbol.CROSS, -5);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            m = UTTTFactory.createMark(Symbol.CIRCLE, -5);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            m = UTTTFactory.createMark(Symbol.EMPTY, -5);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
             m = UTTTFactory.createMark(Symbol.CROSS, -1);
         });
 
         assertThrows(IllegalArgumentException.class, () -> {
+            m = UTTTFactory.createMark(Symbol.CIRCLE, -1);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            m = UTTTFactory.createMark(Symbol.EMPTY, -1);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
             m = UTTTFactory.createMark(Symbol.CROSS, 9);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            m = UTTTFactory.createMark(Symbol.CIRCLE, 9);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            m = UTTTFactory.createMark(Symbol.EMPTY, 9);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            m = UTTTFactory.createMark(Symbol.CROSS, 13);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            m = UTTTFactory.createMark(Symbol.CIRCLE, 13);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            m = UTTTFactory.createMark(Symbol.EMPTY, 13);
         });
     }
 

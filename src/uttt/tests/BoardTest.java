@@ -99,8 +99,11 @@ public class BoardTest {
         assertThrows(IllegalArgumentException.class, () -> {
             b.setMarkAt(Symbol.CIRCLE, 9);
         });
+        assertEquals(b.isMovePossible(4), true);
         assertEquals(b.setMarkAt(Symbol.EMPTY, 4), true);
+        assertEquals(b.isMovePossible(4), true);
         assertEquals(b.setMarkAt(Symbol.EMPTY, 4), true);
+        assertEquals(b.isMovePossible(5), false);
         assertEquals(b.setMarkAt(Symbol.EMPTY, 5), false);
         assertEquals(b.isMovePossible(2), true);
         b.setMarkAt(Symbol.CIRCLE, 2);
