@@ -273,6 +273,9 @@ public class SimulatorTest {
         assertEquals(s.isMovePossible(5), false);
         assertEquals(s.isMovePossible(5, 4), false);
         assertEquals(s.setMarkAt(Symbol.CIRCLE, 5, 4), false);
+        s.setIndexNextBoard(3);
+        assertEquals(s.setMarkAt(Symbol.CIRCLE, 3, 5), true);
+        assertEquals(s.getIndexNextBoard(), -1);
 
         // check getWinner and isGameOver
         ////// lines
