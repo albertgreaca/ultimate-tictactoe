@@ -6,6 +6,7 @@ import uttt.game.MarkInterface;
 import uttt.game.Mark;
 import uttt.game.PlayerInterface;
 import uttt.game.Player;
+import uttt.game.AutoPlayer;
 import uttt.game.Simulator;
 import uttt.game.SimulatorInterface;
 import uttt.game.UserInterface;
@@ -68,7 +69,7 @@ public class UTTTFactory {
 	 *         communicate with the human player to select moves.
 	 */
 	public static PlayerInterface createHumanPlayer(Symbol symbol) {
-		Player p = new Player(symbol);
+		PlayerInterface p = new Player(symbol);
 		return p;
 	}
 
@@ -83,7 +84,7 @@ public class UTTTFactory {
 	 * @return A Ultimate TicTacToe player that will play automatically.
 	 */
 	public static PlayerInterface createBonusPlayer(Symbol symbol) {
-		Player p = new Player(symbol);
+		PlayerInterface p = new AutoPlayer(symbol);
 		return p;
 	}
 }

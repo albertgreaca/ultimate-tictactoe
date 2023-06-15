@@ -9,7 +9,7 @@ public class Main {
 	 * If set to true a human will be playing the game, otherwise a computer player
 	 * as player one. However, command line arguments will override this choice.
 	 */
-	private static final boolean DEFAULT_USE_HUMAN_PLAYER_ONE = true;
+	private static final boolean DEFAULT_USE_HUMAN_PLAYER_ONE = false;
 
 	/**
 	 * If set to true a human will be playing the game, otherwise a computer player

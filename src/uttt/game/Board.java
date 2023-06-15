@@ -134,18 +134,17 @@ public class Board implements BoardInterface {
         if (playerOne.getSymbol() == playerTwo.getSymbol())
             throw new IllegalArgumentException("need different symbols");
         while (true) {
-            if (currentguy == 1) {
-                Move m = ui.getUserMove();
-                if (isMovePossible(m.getMarkIndex()) == true) {
-                    setMarkAt(playerOne.getSymbol(), m.getMarkIndex());
-                    currentguy = 3 - currentguy;
-                }
-            } else {
-                int m = playerTwo.getPlayerMove(this, ui);
-                if (isMovePossible(m) == true) {
-                    setMarkAt(playerTwo.getSymbol(), m);
-                    currentguy = 3 - currentguy;
-                }
+            int m;
+            PlayerInterface player;
+            if (currentguy == 1)
+                player = playerOne;
+            else
+                player = playerTwo;
+
+            m = player.getPlayerMove(this, ui);
+            if (isMovePossible(m) == true) {
+                setMarkAt(player.getSymbol(), m);
+                currentguy = 3 - currentguy;
             }
             ui.updateScreen(this);
             if (isClosed() == true) {
