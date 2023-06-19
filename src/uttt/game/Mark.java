@@ -6,11 +6,6 @@ public class Mark implements MarkInterface {
     Symbol s;
     int p;
 
-    public Mark() {
-        s = Symbol.EMPTY;
-        p = 0;
-    }
-
     public Mark(Symbol s, int p) {
         if (s == null)
             throw new IllegalArgumentException("null argument");

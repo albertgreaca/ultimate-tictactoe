@@ -9,7 +9,7 @@ public class Main {
 	 * If set to true a human will be playing the game, otherwise a computer player
 	 * as player one. However, command line arguments will override this choice.
 	 */
-	private static final boolean DEFAULT_USE_HUMAN_PLAYER_ONE = false;
+	private static final boolean DEFAULT_USE_HUMAN_PLAYER_ONE = true;
 
 	/**
 	 * If set to true a human will be playing the game, otherwise a computer player
@@ -23,7 +23,7 @@ public class Main {
 	 * If set to true a you will play UTTT. If set to false you will play simple
 	 * TicTacToe instead.
 	 */
-	private static final boolean DEFAULT_PLAY_UTT = false;
+	private static final boolean DEFAULT_PLAY_UTT = true;
 
 	/**
 	 * If set to true the user will be asked what player should be chosen.

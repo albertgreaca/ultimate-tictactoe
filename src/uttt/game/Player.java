@@ -6,11 +6,9 @@ import uttt.utils.Symbol;
 public class Player implements PlayerInterface {
     Symbol s;
 
-    public Player() {
-        s = Symbol.EMPTY;
-    }
-
     public Player(Symbol s) {
+        if (s == null || s == Symbol.EMPTY)
+            throw new IllegalArgumentException("wrong argument");
         this.s = s;
     }
 
@@ -25,8 +23,6 @@ public class Player implements PlayerInterface {
     }
 
     public int getPlayerMove(BoardInterface game, UserInterface ui) {
-        if (ui == null)
-            throw new IllegalArgumentException("null argument");
         return ui.getUserMove().getMarkIndex();
     }
 }

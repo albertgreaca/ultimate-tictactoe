@@ -6,11 +6,9 @@ import uttt.utils.Symbol;
 public class AutoPlayer implements PlayerInterface {
     Symbol s;
 
-    public AutoPlayer() {
-        s = Symbol.EMPTY;
-    }
-
     public AutoPlayer(Symbol s) {
+        if (s == null || s == Symbol.EMPTY)
+            throw new IllegalArgumentException("wrong argument");
         this.s = s;
     }
 
@@ -31,8 +29,6 @@ public class AutoPlayer implements PlayerInterface {
     }
 
     public int getPlayerMove(BoardInterface game, UserInterface ui) {
-        if (game == null)
-            throw new IllegalArgumentException("null argument");
         if (Precalculated.ok == 0)
             Precalculated.setandrun();
         MarkInterface[] aux = game.getMarks();
